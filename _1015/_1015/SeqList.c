@@ -96,7 +96,7 @@ void SLErase(SL* ps, int pos)								// 任意位置删除
 	ps->size--;
 }
 
-void SLFind(SL* ps, SLDatatype x)
+void SLFind(SL* ps, SLDatatype x)							// 查找任意元素
 {
 	assert(ps);
 
@@ -114,7 +114,7 @@ void SLFind(SL* ps, SLDatatype x)
 
 }
 
-void SLDesTroy(SL* ps)
+void SLDesTroy(SL* ps)										// 销毁顺序表
 {
 
 	assert(ps && ps->size);
