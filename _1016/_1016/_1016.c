@@ -170,107 +170,107 @@
 
 
 
-//void merge(int* nums1, int nums1Size, int m, int* nums2, int nums2Size, int n) {
-//	
-//	int j = 0;
-//
-//	for (int i = m; i < m + n; i++)
-//	{
-//		nums1[i] = nums2[j++];
-//	}
-//
-//	for (int i = 0; i < 6; i++)
-//	{
-//		printf("%d ", nums1[i]);
-//	}
-//	printf("\n");
-//
-//	int temp = 0;
-//
-//	for (int i = 0; i < m + n; i++)
-//	{
-//		for (int j = 0; j < m + n - i; j++)
-//		{
-//			if (nums1[j] < nums1[j + 1])
-//			{
-//				temp = nums1[j];
-//				nums1[j] = nums1[j + 1];
-//				nums1[j + 1] = temp;
-//			}
-//		}
-//		
-//	}
-//
-//}
-//
-//int main()
-//{
-//	int nums1[] = { 1,2,3,0,0,0};
-//	int nums2[] = { 2,4,5 };
-//
-//	merge(nums1, 6, 3, nums2, 3, 3);
-//
-//	for (int i = 0; i < 6; i++)
-//	{
-//		printf("%d ", nums1[i]);
-//	}
-//
-//	return 0;
-//}
-
-
-
-
-
 void merge(int* nums1, int nums1Size, int m, int* nums2, int nums2Size, int n) {
+	
+	int j = 0;
 
-	int s = m + n - 1;
-	int l1 = m - 1;
-	int l2 = n - 1;
-
-	if (m == 0)
+	for (int i = m; i < m + n; i++)
 	{
-		for (int i = 0; i < n; i++)
+		nums1[i] = nums2[j++];
+	}
+
+	for (int i = 0; i < nums1Size; i++)
+	{
+		printf("%d ", nums1[i]);
+	}
+	printf("\n");
+
+	int temp = 0;
+
+	for (int i = 0; i < m + n - 1; i++)
+	{
+		for (int j = 0; j < m + n -1 - i; j++)									// 少个-1导致降序越界
 		{
-			nums1[i] = nums2[i];
+			if (nums1[j] > nums1[j + 1])
+			{
+				temp = nums1[j];
+				nums1[j] = nums1[j + 1];
+				nums1[j + 1] = temp;
+			}
 		}
+		
 	}
 
-	while (l1 >= 0 && l2 >= 0) {
-		if (nums1[l1] > nums2[l2]) {
-			nums1[s] = nums1[l1];
-			s--;
-			l1--;
-		}
-		else {
-			nums1[s] = nums2[l2];
-			s--;
-			l2--;
-		}
-	}
-
-	while (l2 >= 0) {
-		nums1[s] = nums2[l2];
-		s--;
-		l2--;
-	}
 }
-
-
 
 int main()
 {
+	int nums1[] = { 1,2,3,0,0,0};
+	int nums2[] = { 2,4,5 };
 
-	int arr1[] = { 2 ,0 };
-	int arr2[] = { 1 };
+	merge(nums1, 6, 3, nums2, 3, 3);
 
-	merge(arr1, 2, 1, arr2, 1, 1);
-
-	for (int i = 0; i < 2; i++)
+	for (int i = 0; i < 6; i++)
 	{
-		printf("%d ", arr1[i]);
+		printf("%d ", nums1[i]);
 	}
-
 
 	return 0;
 }
+
+
+
+
+
+//void merge(int* nums1, int nums1Size, int m, int* nums2, int nums2Size, int n) {
+//
+//	int s = m + n - 1;
+//	int l1 = m - 1;
+//	int l2 = n - 1;
+//
+//	if (m == 0)
+//	{
+//		for (int i = 0; i < n; i++)
+//		{
+//			nums1[i] = nums2[i];
+//		}
+//	}
+//
+//	while (l1 >= 0 && l2 >= 0) {
+//		if (nums1[l1] > nums2[l2]) {
+//			nums1[s] = nums1[l1];
+//			s--;
+//			l1--;
+//		}
+//		else {
+//			nums1[s] = nums2[l2];
+//			s--;
+//			l2--;
+//		}
+//	}
+//
+//	while (l2 >= 0) {
+//		nums1[s] = nums2[l2];
+//		s--;
+//		l2--;
+//	}
+//}
+//
+//
+//
+//int main()
+//{
+//
+//	int arr1[] = { 2 ,0 };
+//	int arr2[] = { 1 };
+//
+//	merge(arr1, 2, 1, arr2, 1, 1);
+//
+//	for (int i = 0; i < 2; i++)
+//	{
+//		printf("%d ", arr1[i]);
+//	}
+//
+//
+//	return 0;
+//}
