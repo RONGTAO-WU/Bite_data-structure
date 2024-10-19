@@ -1,0 +1,49 @@
+2024-10-13-链表OJ上
+
+
+
+203. 移除链表元素
+https://leetcode.cn/problems/remove-linked-list-elements/description/
+用一个新链表来接收非指定节点，注意存在特殊情况：链表为空和最后指向空
+
+
+206. 反转链表
+https://leetcode.cn/problems/reverse-linked-list/description/
+方法一：创建一个新链表，遍历原链表然后取出一个个的节点通过头插的方式改变指向
+方法二：通过三指针来定位，改变指向，tag3为tag2指路，tag1为tag2下一跳的指向
+
+
+876.链表的中间结点
+https://leetcode.cn/problems/middle-of-the-linked-list/description/
+方法一：返回链表总节点数除2那个节点
+方法二：快慢指针 ！！！
+
+
+21.合并两个有序链表
+https://leetcode.cn/problems/merge-two-sorted-lists/description/
+双指针一个作为返回值的，一个判断尾部进行链接
+
+
+面试题 02.04. 分割链表
+https://leetcode.cn/problems/partition-list-lcci/description/
+用两个新链表分别保存不同序列的两组数字，最后将它们链接到一起，用哨兵位为两组链表提供有效插入位
+
+
+LCR 027. 回文链表
+https://leetcode.cn/problems/aMhZSa/description/
+方法一：反转整个链表然后与原链表进行比较（这个方法不行，因为原链表的方向已经发生了改变，无法用原链表去访问原来的val，通过数组的方式对原链表正向的val进行比较）
+方法二：用数组将整个链表的值保存起来，然后遍历数组比较对应的值（题目有要求链表上限为900，所以适用此方法）
+方法三：通过快慢指针找到中间节点反转后半部分的链表，对这两个链表进行比较（这个最好）
+
+
+
+2024-10-13_单链表OJ题_作业
+
+
+
+
+
+
+
+
+

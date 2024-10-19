@@ -37,7 +37,7 @@ void SLPushBack(SL** pphead, TypeData x)						// Î²²å£¨¿ª±Ù¿Õ¼ä£¬ÕÒÎ²£¬¿ÕÁ´±íµÄÇ
 	SL* newnode = SLNode(x);									// ¶ÔÐÂ½Úµã¿ª±Ù¿Õ¼ä
 
 	if (newnode == -1)
-		return 0;
+		return -1;
 
 	if (*pphead == NULL)										// Á´±íÎª¿ÕµÄÇé¿ö
 	{
@@ -131,12 +131,12 @@ SL* SLFind(SL* pphead, TypeData x)
 
 void SLInsert(SL** pphead, SL* pos, TypeData x)					// ÔÚÖ¸¶¨½ÚµãÎ»ÖÃÖ®Ç°²åÈëÊý¾Ý
 {
-	assert(*pphead && pos);
+	assert(*pphead && pos);										// ÕÒ²»µ½Ö±½Ó
 
 	SL* newnode = SLNode(x);
 
 
-	if (*pphead == pos)											// posÕýºÃÊÇÍ·½Úµã
+	if (*pphead == pos)											// posÕýºÃÊÇÍ·½Úµã£¨ÕâÀïÓÃÍ·²åÒ²¿ÉÒÔÊµÏÖ£©
 	{
 		newnode->next = pos;
 		*pphead = newnode;
@@ -149,15 +149,78 @@ void SLInsert(SL** pphead, SL* pos, TypeData x)					// ÔÚÖ¸¶¨½ÚµãÎ»ÖÃÖ®Ç°²åÈëÊý¾
 		{
 			prev = prev->next;
 		}
-		prev->next = newnode;
+		
 		newnode->next = pos;
+		prev->next = newnode;
 	}
 
 
 }
 
-void SLInsertAfter(SL** pphead, int pos, TypeData x)			// ÔÚÖ¸¶¨½ÚµãÎ»ÖÃÖ®ºó²åÈëÊý¾Ý
+void SLInsertAfter(SL* pos, TypeData x)							// ÔÚÖ¸¶¨½ÚµãÎ»ÖÃÖ®ºó²åÈëÊý¾Ý
+{																// ¿ÉÒÔÖ±½ÓÍ¨¹ýposÍùºó·ÃÎÊ²åÈë
+	assert(pos);
+
+	SL* newnode = SLNode(x);
+	
+	newnode->next = pos->next;
+	pos->next = newnode;
+}
+
+void SLErase(SL** pphead, SL* pos)								// É¾³ýpos½Úµã
 {
+	assert(*pphead && pos);
+
+	SL* prev = *pphead;
+
+	if (*pphead == pos)
+	{
+		*pphead = pos->next;
+	}
+	else
+	{
+		while (prev->next != pos)
+		{
+			prev = prev->next;
+		}
+		prev->next = pos->next;
+	}
+	free(pos);
+	pos = NULL;
+
+
+}
+
+void SLEraseAfter(SL* pos)										// É¾³ýpos½ÚµãÖ®ºóµÄ½Úµã
+{
+	assert(pos);
+
+	if (pos->next != NULL)
+	{
+		SL* ret = pos->next;
+		pos->next = ret->next;
+		free(ret);
+		ret = NULL;
+	}
+
+
+}
+
+void SLDestroy(SL** pphead)										// Ïú»ÙÁ´±í
+{
+	assert(*pphead);
+
+	SL* prev = *pphead;
+
+	while (prev->next != NULL)
+	{
+		prev = prev->next;
+		free(*pphead);
+		*pphead = prev;
+	}
+	free(prev);
+	prev = NULL;
+	*pphead = NULL;
 
 
 }

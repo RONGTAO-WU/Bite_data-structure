@@ -28,6 +28,12 @@ void SLPopFront(SL** pphead);
 
 SL* SLFind(SL* pphead, TypeData x);
 
-void SLInsert(SL** pphead, int pos, TypeData x);
+void SLInsert(SL** pphead, SL* pos, TypeData x);
 
-void SLInsertAfter(SL** pphead, int pos, TypeData x);
+void SLInsertAfter(SL* pos, TypeData x);
+
+void SLErase(SL** pphead, SL* pos);
+
+void SLEraseAfter(SL* pos);
+
+void SLDestroy(SL** pphead);

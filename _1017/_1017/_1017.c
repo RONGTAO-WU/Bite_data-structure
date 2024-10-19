@@ -45,8 +45,26 @@ void test(SL *sl)							// 同类型指针接收指针
 	else
 		printf("找到了\n");
 
-
+//	print(Find);
 	SLInsert(&sl, Find, 40);
+	print(sl);
+
+	SLInsertAfter(Find, 400);
+	print(sl);
+
+//	Find = SLFind(sl, 10);						// 特殊情况当pos为头节点时
+	SLErase(&sl, Find);							// 删除pos
+	print(sl);
+
+	Find = SLFind(sl, 40);
+	Find = SLFind(sl, 4);						// 特殊情况当pos为尾节点时
+
+	SLEraseAfter(Find);
+	print(sl);
+
+	SLDestroy(&sl);
+	print(sl);
+
 
 
 }
