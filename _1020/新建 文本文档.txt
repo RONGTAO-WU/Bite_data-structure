@@ -1,0 +1,31 @@
+2024-10-14-链表OJ下
+
+
+
+160. 相交链表
+https://leetcode.cn/problems/intersection-of-two-linked-lists/description/
+遍历判断两个链表有无共同的尾节点，然后让长的链表先走abs(a-b)步,之后共同往前走进行比较
+
+
+面试题 02.02. 返回倒数第 k 个节点
+https://leetcode.cn/problems/kth-node-from-end-of-list-lcci/description/
+双指针，A指针先走k步，随后两个指针一起走
+
+
+141. 环形链表
+https://leetcode.cn/problems/linked-list-cycle/description/
+快慢指针，链表若带环则两指针必定相遇（理论上快指针走2步以上都能与之相遇）
+
+
+142. 环形链表 II
+https://leetcode.cn/problems/linked-list-cycle-ii/description/
+理论上快慢指针相遇后到入环节点的步数与头节点到入环节点的步数相同
+
+
+138. 随机链表的复制			！！！
+https://leetcode.cn/problems/copy-list-with-random-pointer/description/
+复制节点到原节点后面，然后对复制链表和原链表random进行链接，最后重链接复制链表
+
+
+
+2024-10-14_单链表OJ题_作业
