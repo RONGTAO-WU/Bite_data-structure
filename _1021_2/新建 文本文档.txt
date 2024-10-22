@@ -3,7 +3,8 @@
 
 
 数组实现栈
-括号匹配问题
+20. 有效的括号
+https://leetcode.cn/problems/valid-parentheses/description/
 
 
 
