@@ -51,7 +51,7 @@ int Size(QE* pq)												// 返回队列中节点个数
 	return pq->size;
 }
 
-void Pop(QE* pq)												// 出队列
+void Pop(QE* pq)												// 出队列,把头移除
 {
 	assert(pq);
 
@@ -101,10 +101,11 @@ void Destroy(QE* pq)											// 销毁队列
 		{
 			QN* next = pq->phead->next;
 			free(pq->phead);
-			pq->phead = tmp;
+			tmp = next;
 		}
 
 		pq->phead = pq->ptail = NULL;
+		pq->size = 0;
 
 		free(tmp);
 		tmp = NULL;
