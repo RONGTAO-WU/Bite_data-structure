@@ -188,11 +188,11 @@ int main()
 
 //	test();
 //	test1();												// 利用堆结构排序
-//	test2();												// 数组建堆
+	test2();												// 数组建堆
 
 	//int arr[] = { 20,60,80,40,90,70,30,10 };
 	//int n = sizeof(arr) / sizeof(arr[0]);
-	//BubbleSort(arr,n);
+	//BubbleSort(arr,n);									// 数组手动排序
 
 	//for (int i = 0; i < n; i++)
 	//{
@@ -200,7 +200,7 @@ int main()
 	//}
 
 //	CreateNDate();											// 生成随机数
-	TopK();
+//	TopK();													
 
 	return 0;
 }

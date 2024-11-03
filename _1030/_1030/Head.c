@@ -89,7 +89,7 @@ void Adjustdown(HPDatatype *arr,int parent,int size)
 
 	while (child < size)											// 向下调整孩子结点不能越界
 	{
-		if (child +1 < size && arr[child] > arr[child + 1])			// 左孩子大于右孩子，找小的那个孩子	child+1 < size 保证右孩子不越界
+		if (child +1 < size && arr[child] < arr[child + 1])			// 左孩子大于右孩子，找小的那个孩子	child+1 < size 保证右孩子不越界
 		{
 			child++;
 		}
