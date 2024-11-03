@@ -27,3 +27,7 @@ void pop(HP* php);										// 删除堆顶数据
 bool Empty(HP* php);
 
 int size(HP* php);
+
+HPDatatype Top(HP* php);								// 取堆顶数据
+
+void HeapSort(int arr , int n);

@@ -82,21 +82,21 @@ void push(HP* php, HPDatatype x)
 
 }
 
-void Adjustdown(HP* php,int parent,int size)
+void Adjustdown(HPDatatype *arr,int parent,int size)
 {
-	assert(Empty(php));
+	assert(Empty(arr));
 	int child = parent * 2 + 1;
 
-	while (child < size)									// 向下调整孩子结点不能越界
+	while (child < size)											// 向下调整孩子结点不能越界
 	{
-		if ( php->arr[child] > php->arr[child + 1])			// 左孩子大于右孩子，找小的那个孩子	child+1 < size 保证右孩子不越界
+		if (child +1 < size && arr[child] > arr[child + 1])			// 左孩子大于右孩子，找小的那个孩子	child+1 < size 保证右孩子不越界
 		{
 			child++;
 		}
 
-		if (php->arr[child] < php->arr[parent])
+		if (arr[child] > arr[parent])
 		{
-			Swap(&php->arr[child], &php->arr[parent]);		// 交换两个结点
+			Swap(&arr[child], &arr[parent]);						// 交换两个结点
 			parent = child;
 			child = parent * 2 + 1;
 		}
@@ -107,18 +107,17 @@ void Adjustdown(HP* php,int parent,int size)
 
 void pop(HP* php)
 {
-	assert(php && Empty(php));
+	assert(Empty(php));
 
 	Swap(&php->arr[0], &php->arr[php->size-1]);				// 堆顶元素跟堆尾元素互换(堆尾元素是size-1)，size-1，堆顶向下调整
 	php->size--;
 
-	Adjustdown(&php->arr, 0, php->size);
+	Adjustdown(php->arr, 0, php->size);
 
 }
 
 bool Empty(HP* php)
 {
-	assert(php);
 	return php->size != 0;
 }
 
@@ -127,3 +126,11 @@ int size(HP* php)
 	assert(php);
 	return php->size;
 }
+
+HPDatatype Top(HP* php)
+{
+	assert(Empty(php));
+
+	return php->arr[0];
+}
+
