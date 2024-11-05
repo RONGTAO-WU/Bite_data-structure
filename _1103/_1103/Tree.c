@@ -1,6 +1,7 @@
 #define _CRT_SECURE_NO_WARNINGS
 
 #include"Tree.h"
+#include"Queue.h"
 
 
 
@@ -125,4 +126,70 @@ void BinaryTreeDestory(BTNode** root)								// 二叉树的销毁
 
 	free(*root);
 	*root = NULL;
+}
+
+void LevelOrder(BTNode* root)										// 二叉树的层序遍历
+{
+	QE q;
+	Init(&q);
+	Pust(&q,root);
+
+	while (Empty(&q))
+	{
+		BTNode* top = Front(&q);									// 取头部数据
+		Pop(&q);													// 移除头部
+
+		printf("%c ", top->data);
+
+		if (top->left)												// 左孩子不为空入队列，先左后右
+		{
+			Pust(&q, top->left);
+		}
+
+		if (top->right)
+		{
+			Pust(&q, top->right);
+		}
+
+		
+	}
+
+	Destroy(&q);
+}
+
+bool BinaryTreeComplete(BTNode* root)								// 判断一个二叉树是不是一个完全二叉树
+{																	// 用队列的方式层序遍历，当取出一个空结点时判断队列是否为空，若为空则说明是完全二叉树
+	assert(root);
+
+	QE q;
+	Init(&q);
+	Pust(&q, root);
+
+	while (Empty(&q))
+	{
+		BTNode* top = Front(&q);
+		if (top == NULL)
+		{
+			if (Size == NULL)
+				return true;
+			else
+				return false;
+		}
+
+		Pop(&q);
+
+		if (top->left)
+		{
+			Pust(&q, top->left);
+		}
+
+		if (top->right)
+		{
+			Pust(&q, top->right);
+		}
+
+	}
+
+	Destroy(&q);
+
 }

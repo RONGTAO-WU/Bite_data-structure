@@ -1,6 +1,8 @@
 #define _CRT_SECURE_NO_WARNINGS
 
 #include"Tree.h"
+#include"Queue.h"
+
 
 
 BTNode* buyNode(Datatype x)
@@ -26,10 +28,13 @@ BTNode* createTree()
 	BTNode* NodeD = buyNode('D');
 	BTNode* NodeE = buyNode('E');
 	BTNode* NodeF = buyNode('F');
+//	BTNode* NodeS = buyNode('S');
+
 
 	NodeA->left = NodeB;
 	NodeA->right = NodeC;
 	NodeB->left = NodeD;
+//	NodeB->right = NodeS;
 	NodeC->left = NodeE;
 	NodeC->right = NodeF;
 
@@ -57,9 +62,20 @@ void test()
 	BTNode* ret = BinaryTreeFind(root, 'E');
 
 	if (ret)
-		printf("找到了");
+		printf("找到了\n");
 	else
-		printf("未找到");
+		printf("未找到\n");
+
+	LevelOrder(root);
+
+	BTNode* Jud = BinaryTreeComplete(root);
+
+	printf("\n");
+
+	if (Jud)
+		printf("完全二叉树\n");
+	else
+		printf("非完全二叉树\n");
 
 	BinaryTreeDestory(&root);
 

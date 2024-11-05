@@ -5,6 +5,8 @@
 #include<stdlib.h>
 #include<stdbool.h>
 
+
+
 typedef int Datatype;
 
 typedef struct BinaryTreeNode
@@ -24,3 +26,7 @@ int BinaryTreeLevelKSize(BTNode* root, int k);			// 二叉树第K层结点个数
 int BinaryTreeDepth(BTNode* root);						// 二叉树的高度
 BTNode* BinaryTreeFind(BTNode* root,Datatype x);		// 二叉树查找值为x的结点
 void BinaryTreeDestory(BTNode** root);					// 二叉树的销毁
+
+void LevelOrder(BTNode* root);							// 二叉树的层序遍历
+
+bool BinaryTreeComplete(BTNode* root);					// 判断一个二叉树是不是一个完全二叉树
