@@ -91,6 +91,8 @@ using namespace std;
 // vector的底层实现
 
 
+#include<assert.h>
+
 namespace bit
 {
 
@@ -101,8 +103,9 @@ namespace bit
 
 	public:
 		typedef T* iterator;
-
-		iterator begin()
+		typedef const T* const_iterator;
+		
+		iterator begin()												// 迭代器
 		{
 			return _start;
 		}
@@ -112,17 +115,76 @@ namespace bit
 			return _finish;
 		}
 
-		T& operator[](size_t i)
+		const_iterator begin()const										// 用于const迭代器
+		{
+			return _start;
+		}
+
+		const_iterator end()const
+		{
+			return _finish;
+		}
+
+		T& operator[](size_t i)											// 支持下标范围
 		{
 			return _start[i];
 		}
 
 
-		vector()
+		vector()														// 默认构造
 			:_start(nullptr)
 			,_finish(nullptr)
 			,_end_of_storage(nullptr)
 		{}
+
+		//v2(v1)
+		vector(const vector<T>& v)										// 拷贝构造
+		{
+			reserve(v.size());
+			for (auto& e : v)
+			{
+				push_back(e);
+			}
+		}
+
+		vector(size_t n, const T& val = T())									// n个元素初始化
+		{
+			resize(n, val);
+		}
+
+
+		//v3 = v1
+		//vector<T>& operator =(const vector<T>& v)						// 赋值构造的一种复杂写法
+		//{
+		//	if (this != &v)
+		//	{
+		//		delete[]_start;
+		//		_start = _finish = _end_of_storage = nullptr;
+		//		reserve(v.size());
+		//		for (auto& e : v)
+		//		{
+		//			push_back(e);
+		//		}
+		//		
+		//	}	
+
+		//	return *this;
+		//}
+
+		//v3 = v1
+		vector<T>& operator =(vector<T> v)								// v3想跟v1有一样的空间一样的值
+																		// 直接让v1传值传参，交换一份v1的数据即可
+		{
+			swap(v);
+			return *this;
+		}
+
+		void swap(vector<T> v)
+		{
+			std::swap(_start,v._start);
+			std::swap(_finish,v._finish);
+			std::swap(_end_of_storage,v._end_of_storage);
+		}
 
 		~vector()
 		{
@@ -140,15 +202,81 @@ namespace bit
 			return _end_of_storage - _start;
 		}
 
-		void push_back(const T& x)
+		void push_back(const T& x)										// 尾插
 		{
 			if (_finish == _end_of_storage)
 			{
 				reserve(capacity() == 0 ? 4 :capacity() * 2);
 			}
 
-			*_finish = x;												// 尾插
+			*_finish = x;												
 			_finish++;
+		}
+
+		void pop_back()													// 尾删
+		{
+			assert(_finish > _start);
+			_finish--;
+		}
+
+
+		//	扩容会导致迭代器失效，失效需要更新在使用，要记录pos的相对于起点的位置
+
+		void insert(iterator pos,const T& x)							// 任意位置插入一个数据
+		{
+			assert(pos >= _start);
+			assert(pos <= _finish);
+
+			if (_finish == _end_of_storage)				// 判断容量是否够扩容
+			{
+				size_t len = pos - _start;				// 记录相对位置				
+				reserve(capacity() == 0 ? 4 : capacity() * 2);
+				pos = len + _start;
+			}
+
+			iterator it = _finish-1;
+
+			while (it >= pos)							// pos后的数据向后移动
+			{
+				*(it + 1) = *it;
+				it--;
+			}
+
+			*pos = x;
+			_finish++;
+		}
+
+		void erase(iterator pos)
+		{
+			assert(pos >= _start);
+			assert(pos <= _finish);
+
+			iterator it = pos+1;
+
+			while (it >	_finish)
+			{
+				*(it-1) = *it;
+				it++;
+			}
+
+			_finish--;
+		}
+
+		void resize(size_t n,const T& val = T())
+		{
+			if (n < size())												// 缩容，有效长度缩小
+			{
+				_finish = _start + n;
+			}
+			else
+			{
+				reserve(n);												// 扩容，后面直接填充数据
+				while (_finish != _start + n)
+				{
+					*_finish = val;
+					_finish++;
+				}
+			}
 		}
 
 		void reserve(size_t n)											// 扩容
@@ -157,7 +285,12 @@ namespace bit
 			{
 				//size_t oldsize = size();								//（最好提前记录下size）
 				T* tmp = new T[n];
-				memcpy(tmp, _start, sizeof(T) * size());
+	//			memcpy(tmp, _start, sizeof(T) * size());				//	memcpy是浅拷贝，自定义类型用可能会引发一些问题
+
+				for (size_t i = 0; i < size(); i++)						//	处理浅拷贝释放同一块空间的问题，直接赋值
+				{
+					tmp[i] = _start[i];
+				}
 				delete[] _start;
 				_finish = tmp + size();									//_start释放掉了用tmp
 				_start = tmp;
@@ -165,6 +298,21 @@ namespace bit
 				_end_of_storage = _start + n;
 			}
 		}
+
+
+		// 类模板的成员函数也可以是一个函数模板
+		 
+		/*template<class InputIterator>
+		vector(InputIterator first, InputIterator last)
+		{
+			while (first != last)
+			{
+				push_back(*first);
+				first++;
+			}
+		}*/
+
+
 
 	private:
 		iterator _start;
@@ -181,18 +329,89 @@ int main()
 	v1.push_back(10);
 	v1.push_back(20);
 	v1.push_back(30);
-	v1.push_back(40);
+	v1.push_back(40);											
+																
 	v1.push_back(50);
+	v1.pop_back();
 
-	for (const int& e : v1)
+	for (const int& e : v1)										// 范围for
 	{
-		cout << e << " ";
+		std::cout << e << " ";
 	}
-	cout << endl;
+	std::cout << endl;
 
-	for (int i = 0; i < v1.size(); i++)
+	
+
+	v1.insert(v1.begin() + 1, 30);								// 这里如果正好4个大小，扩容会导致<迭代器失效>！！！
+																// 扩容会导致begin的位置发生改变，在这之前的begin都会失效
+																// 本质是野指针
+
+
+	bit::vector<int>::iterator t1 = v1.begin();					// 迭代器
+	while (t1 != v1.end())
 	{
-		cout << v1[i] << " ";
+		std::cout << *t1 << " ";
+		t1++;
 	}
-	cout << endl;
+	std::cout << endl;
+
+
+
+	v1.erase(v1.begin() + 3);
+
+
+
+	for (int i = 0; i < v1.size(); i++)							// 下标+[]
+	{
+		std::cout << v1[i] << " ";
+	}
+	std::cout << endl;
+
+
+	v1.resize(10, 1);
+
+
+
+	for (int i = 0; i < v1.size(); i++)							
+	{
+		std::cout << v1[i] << " ";
+	}
+	std::cout << endl;
+
+
+	bit::vector<int> v2(v1);									// 拷贝构造
+	bit::vector<int> v3 = v1;									// 赋值构造
+	v3.resize(100,1);
+
+
+	for (int i = 0; i < v2.size(); i++)							
+	{
+		std::cout << v2[i] << " ";
+	}
+	std::cout << endl;
+	for (int i = 0; i < v3.size(); i++)							
+	{
+		std::cout << v3[i] << " ";
+	}
+	std::cout << endl;
+
+
+
+	//bit::vector<int> v4(v3.begin() + 2, v3.end() - 2);		// 迭代区间初始化
+	//for (int i = 0; i < v4.size(); i++)
+	//{
+	//	std::cout << v4[i] << " ";
+	//}
+	//std::cout << endl;
+
+
+
+	bit::vector<int> v5(10,2);									// n个数据初始化（需要屏蔽模板，因为跟这里更匹配）
+	for (int i = 0; i < v5.size(); i++)
+	{
+		std::cout << v5[i] << " ";
+	}
+	std::cout << endl;
+
 }
+
