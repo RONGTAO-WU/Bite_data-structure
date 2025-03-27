@@ -69,7 +69,10 @@ using namespace std;
 
 namespace bit
 {
-	template<class T,class container>
+	// stack<int,vector<int>>
+	// stack<int,list<int>>
+
+	template<class T,class container = vector<T>>
 
 	class stack
 	{
@@ -80,12 +83,25 @@ namespace bit
 			_con.push_back(x);
 		}
 
-		bool empty()
+		void pop()
 		{
-			return _con_empty();
+			_con.pop_back();
 		}
 
-		void pop()
+		bool empty()
+		{
+			return _con.empty();
+		}
+
+		const T& top()
+		{
+			return _con.back();
+		}
+
+		size_t size()
+		{
+			return _con.size();
+		}
 
 
 
@@ -94,7 +110,25 @@ namespace bit
 	};
 }
 
+#include<vector>
+
 int main()
 {
-	bit::stack<int, vector<int>>;
+	bit::stack<int, vector<int>> st;
+
+	st.push(10);
+	st.push(20);
+	st.push(30);
+	st.push(40);
+	st.push(50);
+
+	while (!st.empty())
+	{
+		cout << st.top() << " ";
+		st.pop();
+	}
+	cout << endl;
+
+
+	return 0;
 }
